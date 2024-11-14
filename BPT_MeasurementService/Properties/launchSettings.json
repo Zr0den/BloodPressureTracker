@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "BPT_MeasurementService": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}

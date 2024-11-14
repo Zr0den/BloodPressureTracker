@@ -5,3 +5,40 @@ services:
       - "8080:8080"
     volumes:
       - ./docs:/usr/local/structurizr
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: BPT_API/Dockerfile
+  measurementservice:
+    image: ${DOCKER_REGISTRY-}measurementservice
+    build:
+      context: .
+      dockerfile: BPT_MeasurementService/Dockerfile
+  patientservice:
+    image: ${DOCKER_REGISTRY-}patientservice
+    build:
+      context: .
+      dockerfile: BPT_PatientService/Dockerfile
+  doctorui:
+    image: ${DOCKER_REGISTRY-}doctorui
+    build:
+      context: .
+      dockerfile: BPT_UI/Dockerfile
+  mysql:
+     image: mysql:8.0
+     cap_add:
+      - SYS_NICE
+     restart: always
+     ports:
+      - 1433:1433
+     environment:
+       MYSQL_ROOT_PASSWORD: "S3cr3tP4sSw0rd#123"
+       ACCEPT_EULA: "Y"
+     volumes:
+      - db:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+ db:
+  driver: local
